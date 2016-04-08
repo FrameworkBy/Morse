@@ -8,8 +8,6 @@ class MorseCodeConverter
     //const BR = "<br />\n";
     const INPUT_TEXT_DEFAULT = "Вас вітае канвертар коду Морзэ!";
 
-
-
     function __construct($language)
     {
         $this->language = $language;
