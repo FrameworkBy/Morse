@@ -171,13 +171,13 @@ class MorseCodeConverter
             foreach($newText as $lng)
             {
                 if($lng == '*') {
-                    $wavFilepath = dirname(__FILE__) . "/base/dot.wav";
+                    $wavFilepath = dirname(__FILE__) . "/base/dot50.wav";
                 }
                 elseif ($lng == '-') {
-                    $wavFilepath = dirname(__FILE__) . "/base/dash.wav";
+                    $wavFilepath = dirname(__FILE__) . "/base/dash150.wav";
                 }
                 elseif ($lng == ' ') {
-                    $wavFilepath = dirname(__FILE__) . "/base/silence600.wav";
+                    $wavFilepath = dirname(__FILE__) . "/base/silence200.wav";
                 }
                 else {
                     echo '999', $lng, '<br>';
@@ -194,7 +194,7 @@ class MorseCodeConverter
                 fclose($fp);
 
                 if ($lng != ' ') {
-                    $wavFilepath = dirname(__FILE__) . "/base/silence450.wav";
+                    $wavFilepath = dirname(__FILE__) . "/base/silence150.wav";
                     $fp = fopen($wavFilepath, 'rb');
                     fseek($fp, 16);
                     $sizeChunk1 = unpack('Vsize', fread($fp,4));
