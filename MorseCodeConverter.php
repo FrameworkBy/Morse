@@ -59,8 +59,8 @@ class MorseCodeConverter
                     if ($this->language == 'mor'){
                         $this->arr[$symbol_str[2]] = $symbol_str[7];
                     } else {
-						$this->arr[$symbol_str[7]] = $symbol_str[3];
-					}
+                        $this->arr[$symbol_str[7]] = $symbol_str[3];
+                    }
                 }
             }
         }
@@ -233,6 +233,7 @@ class MorseCodeConverter
         $result = '';
 
         $newText = preg_split('//u', $StringTxt, -1, PREG_SPLIT_NO_EMPTY);
+        $debText = $newText;
         foreach ($newText as $lng) {
             if ($lng == ' ') {
                 continue;
@@ -250,9 +251,62 @@ class MorseCodeConverter
         //echo $temp;
         if ($temp == 0){
             return true;
-        }else return false;
+        }else {
+            foreach ($debText as $deb)
+            {
+                echo $deb;
+            }
+            echo ' ';
+            //echo $arrResult, "<br>";
+            return false;
+        }
         //echo $result, ' ', mb_strlen($result), "<br>";
         //echo $StringMorze, ' ', mb_strlen($StringMorze), "<br>";
+    }
+
+    public function AutoTest()
+    {
+        $errors = 0;
+        $filePath = dirname(__FILE__) . "/tablemorze.txt";
+        $handle = fopen($filePath, 'r') OR die("fail open 'tablemorze.txt'");
+        if ($handle) {
+            $var = 0;
+            while (($buffer = fgets($handle, 4096)) !== false) {
+
+                if (substr($buffer, 0, 1) != "#") {
+                    $var++;
+                    $symbol_str = preg_split("/\t/", $buffer);
+                    $arrText[$var] = $symbol_str[0];
+                    $arrMorse[$var] = $symbol_str[1];
+                }
+            }
+        }
+        fclose($handle);
+        if (count($arrText) != count($arrMorse)) {
+            echo "Different size";
+            return;
+        }
+        echo "size = ", count($arrMorse), "<br>";
+        for ($i = 1; $i < count($arrText) + 1; $i++) {
+            $result = '';
+            $newArrResult = '';
+            $newArrMorse='';
+            $arrText = preg_split('//u', $arrText[$i], -1, PREG_SPLIT_NO_EMPTY);
+            for ( $j = 0; $j <count($arrText); $j++)
+                echo $arrText[$j];
+            foreach ($arrText as $ar) {
+                $this->setText($ar);
+                $result .= $this->run();
+                $result .= ' ';
+            }
+            $newArrMorse = mb_substr($arrMorse[$i], 0, mb_strlen($arrMorse[$i]), "utf-8");
+            $newArrResult = mb_substr($result, 0, mb_strlen($result), "utf-8");
+            echo "<br>", $newArrResult;
+            echo "<br>", $newArrMorse;
+
+            //echo $result;
+            //echo $errors;
+        }
     }
 }
 ?>
