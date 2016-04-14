@@ -59,8 +59,8 @@ include_once 'MorseCodeConverter.php';
      }
      if (isset($_POST['TestButton'])){
          $MorseCodeConverter = new MorseCodeConverter('mor');
-         $MorseCodeConverter->autoTest();
-         if ($MorseCodeConverter->startAutoTest() == True){
+         //$MorseCodeConverter->AutoTest();
+         if ($MorseCodeConverter->AutoTest() == True){
              $testResult = '<font size = "5" color = "green">';
              $testResult .= 'Откалибровано';
              $testResult .= "</font>";
