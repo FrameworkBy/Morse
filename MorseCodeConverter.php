@@ -225,48 +225,10 @@ class MorseCodeConverter
         return $this->filename;
     }
 
-    public function startAutoTest()
-    {
-        //$this->language = 'mor';
-        $StringTxt = file_get_contents('./text2.txt', True);
-        $StringMorze = file_get_contents('./morze2.txt', True);
-        $result = '';
-
-        $newText = preg_split('//u', $StringTxt, -1, PREG_SPLIT_NO_EMPTY);
-        $debText = $newText;
-        foreach ($newText as $lng) {
-            if ($lng == ' ') {
-                continue;
-            }
-            $this->setText($lng);
-            $result .= $this->run();
-            $result.= ' ';
-        }
-        unset($lng);
-        $resultLength = strlen($result);
-        $morzeLength = strlen($StringMorze);
-        $arrResult = mb_substr($result, 1, $resultLength, "utf-8");
-        $arrMorze = mb_substr($StringMorze, 1, $morzeLength, "utf-8");
-        $temp = strcmp($arrResult, $arrMorze);
-        //echo $temp;
-        if ($temp == 0){
-            return true;
-        }else {
-            foreach ($debText as $deb)
-            {
-                echo $deb;
-            }
-            echo ' ';
-            //echo $arrResult, "<br>";
-            return false;
-        }
-        //echo $result, ' ', mb_strlen($result), "<br>";
-        //echo $StringMorze, ' ', mb_strlen($StringMorze), "<br>";
-    }
-
     public function AutoTest()
     {
         $errors = 0;
+        $iserror = false;
         $filePath = dirname(__FILE__) . "/tablemorze.txt";
         $handle = fopen($filePath, 'r') OR die("fail open 'tablemorze.txt'");
         if ($handle) {
@@ -274,10 +236,10 @@ class MorseCodeConverter
             while (($buffer = fgets($handle, 4096)) !== false) {
 
                 if (substr($buffer, 0, 1) != "#") {
-                    $var++;
                     $symbol_str = preg_split("/\t/", $buffer);
                     $arrText[$var] = $symbol_str[0];
                     $arrMorse[$var] = $symbol_str[1];
+                    $var++;
                 }
             }
         }
@@ -286,27 +248,36 @@ class MorseCodeConverter
             echo "Different size";
             return;
         }
-        echo "size = ", count($arrMorse), "<br>";
-        for ($i = 1; $i < count($arrText) + 1; $i++) {
+        //echo "size = ", count($arrMorse), "<br>";
+        for ($i = 1; $i < count($arrText); $i++) {
             $result = '';
             $newArrResult = '';
             $newArrMorse='';
-            $arrText = preg_split('//u', $arrText[$i], -1, PREG_SPLIT_NO_EMPTY);
-            for ( $j = 0; $j <count($arrText); $j++)
-                echo $arrText[$j];
-            foreach ($arrText as $ar) {
+            $arrTextdeb = preg_split('//u', $arrText[$i], -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($arrTextdeb as $ar) {
                 $this->setText($ar);
                 $result .= $this->run();
                 $result .= ' ';
             }
             $newArrMorse = mb_substr($arrMorse[$i], 0, mb_strlen($arrMorse[$i]), "utf-8");
-            $newArrResult = mb_substr($result, 0, mb_strlen($result), "utf-8");
-            echo "<br>", $newArrResult;
-            echo "<br>", $newArrMorse;
+            $newArrResult = mb_substr($result, 0, mb_strlen($result) - 1, "utf-8");
 
-            //echo $result;
-            //echo $errors;
+            if (strcmp($newArrMorse, $newArrResult) != 0)
+            {
+                $errors++;
+                $iserror = true;
+                echo "Error: ";;
+                foreach($arrTextdeb as $txt)
+                    echo $txt;
+                echo "<br>";
+            }
         }
+        if ($iserror == true)
+        {
+            echo "Number of errors: ", $errors, "<br>";
+            return false;
+        } else return true;
+
     }
 }
 ?>
