@@ -105,7 +105,7 @@ class MorseCodeConverter
         return $result;
     }
 
-    private function run()
+    public function run()
 	{
 		if ($this->language != 'mor') {
 			if(isset($this->arr[$this->text]))

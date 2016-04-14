@@ -80,7 +80,7 @@ include_once 'MorseCodeConverter.php';
                     <input type="button" class="symbol-button" value='&#8634;' onclick="document.getElementById('input_text_id').value=input_text_default;">
                 </td>
                 <td width="5%" align="right">
-                    <input type="button" class="symbol-button" value='x' onclick="document.getElementById('input_text_id').value='';">
+                    <input type="button" class="symbol-button" value='x' onclick="document.getElementById('input_text_id').value=''; document.getElementById('output_text_id').value='';">
                 </td>
             </tr>
         </table>
