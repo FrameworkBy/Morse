@@ -1,10 +1,14 @@
 <?php
+mb_internal_encoding('UTF-8');
+mb_regex_encoding('UTF-8');
 include_once 'MorseCodeConverter.php';
 
 $MorseCodeConverter = new MorseCodeConverter('mor');
-$errorlist = '';
+
+$br ="<br>\n";
 $errors = 0;
-$iserror = false;
+$errorList = '';
+$isError = false;
 $filePath = dirname(__FILE__) . "/tablemorze.txt";
 $handle = fopen($filePath, 'r') OR die("fail open 'tablemorze.txt'");
 if ($handle) {
@@ -20,38 +24,76 @@ if ($handle) {
     }
 }
 fclose($handle);
+
 if (count($arrText) != count($arrMorse)) {
     echo "Different size";
     return;
 }
-//echo "size = ", count($arrMorse), "<br>";
+//echo "size = ", count($arrMorse), $br;
 for ($i = 1; $i < count($arrText); $i++) {
+    $isError = false;
     $result = '';
     $newArrResult = '';
     $newArrMorse='';
+    $morseHave = '';
+    $morseShouldBe = '';
+    $coincidedPart = '';
+    $wordHave = '';
     $arrTextdeb = preg_split('//u', $arrText[$i], -1, PREG_SPLIT_NO_EMPTY);
-    foreach ($arrTextdeb as $ar) {
-        $MorseCodeConverter->setText($ar);
-        $result .= $MorseCodeConverter->run();
-        $result .= ' ';
-    }
-    $newArrMorse = mb_substr($arrMorse[$i], 0, mb_strlen($arrMorse[$i]), "utf-8");
-    $newArrResult = mb_substr($result, 0, mb_strlen($result) - 1, "utf-8");
+    $elementsMorse = explode(" ", $arrMorse[$i]);
 
-    if (strcmp($newArrMorse, $newArrResult) != 0)
+    if (count($elementsMorse) != count($arrTextdeb))
     {
-        $errors++;
-        $iserror = true;
-        echo "Error: ";;
-        foreach($arrTextdeb as $txt)
-            echo $txt;
-        echo "<br>";
+      if (count($elementsMorse) < count($arrTextdeb)){
+          $temp = count($elementsMorse);
+      }else {
+          $temp = count($arrTextdeb);
+      }
+    } else $temp = count($elementsMorse);
+
+    for ($j = 0; $j < $temp; $j++)
+    {
+        $MorseCodeConverter->setText($arrTextdeb[$j]);
+        $result = $MorseCodeConverter->run();
+        $newArrResult = mb_substr($result, 0, mb_strlen($result), "utf-8");
+        $newArrMorse = mb_substr($elementsMorse[$j], 0, mb_strlen($elementsMorse[$j]), "utf-8");
+        if (strcmp($newArrMorse, $newArrResult) != 0)
+        {
+            $charactersMismatchIndex = $j;
+            $isError = true;
+            $errors++;
+            break;
+        }
+    }
+
+    if ($isError == true)
+    {
+        $wordHave = $arrText[$i];
+        for ($k = 0; $k < $charactersMismatchIndex; $k++) {
+            $coincidedPart .= mb_substr($arrText[$i], $k, 1, "utf-8");
+        }
+
+        $morseShouldBe = $arrMorse[$i];
+        foreach ($arrTextdeb as $temptxt)
+        {
+            $MorseCodeConverter->setText($temptxt);
+            $morseHave .= $MorseCodeConverter->run();
+            $morseHave .= ' ';
+        }
+
+        $errorList .= "Error(line № $i)" . $br;
+        $errorList .= "Word in: $wordHave" . $br;
+        $errorList .= "Coincided part: $coincidedPart" . $br;
+        $errorList .= "Must be : $morseShouldBe" . $br;
+        $errorList .= "Now out: $morseHave" . $br . $br . $br;
     }
 }
-if ($iserror == true)
-{
-    echo "Number of errors: ", $errors, "<br>";
-}
-
+$allTestsCnt = $i - 1;
+$resultStatistics .= "Усяго тэстаў: <b>$allTestsCnt</b>.$br";
+$successfulTestsCnt = $allTestsCnt - $errors;
+$successfulTestsPercentage = round($successfulTestsCnt / $allTestsCnt * 100, 2);
+$resultStatistics .= "Сярод актываваных тэстаў паспяхова пройдзена: <b>$successfulTestsPercentage % ($successfulTestsCnt з $allTestsCnt)</b>.$br$br$br";
+$resultStatistics .= $errorList;
+echo $resultStatistics;
 
 ?>

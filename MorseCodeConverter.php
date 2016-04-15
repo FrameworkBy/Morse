@@ -84,6 +84,7 @@ class MorseCodeConverter
                 }
                 $this->setText($lng);
                 //delete later
+                //echo $this->ordutf8($lng);
                 $result .= $this->run();
                 $result.= ' ';
             }

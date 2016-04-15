@@ -129,7 +129,7 @@ include_once 'MorseCodeConverter.php';
 
        
     <tr>
-        <p> <input type="submit" name = "TestButton" class="blue-button" value='Test';> </p>
+        <p> <input type="submit" name = "TestButton" class="blue-button" value='Адкалібраваць';> </p>
             <td >
             <?php
                 if (isset($_POST['mainButton']) && file_exists('cache/out/' . $MorseCodeConverter->getFilePath())) {
