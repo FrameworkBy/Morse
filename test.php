@@ -2,6 +2,7 @@
 include_once 'MorseCodeConverter.php';
 
 $MorseCodeConverter = new MorseCodeConverter('mor');
+$errorlist = '';
 $errors = 0;
 $iserror = false;
 $filePath = dirname(__FILE__) . "/tablemorze.txt";

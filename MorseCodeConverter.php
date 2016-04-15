@@ -83,6 +83,7 @@ class MorseCodeConverter
                     continue;
                 }
                 $this->setText($lng);
+                //delete later
                 $result .= $this->run();
                 $result.= ' ';
             }
