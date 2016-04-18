@@ -61,11 +61,11 @@ include_once 'MorseCodeConverter.php';
          $MorseCodeConverter = new MorseCodeConverter('mor');
          if ($MorseCodeConverter->AutoTest() == True){
              $testResult = '<font size = "5" color = "green">';
-             $testResult .= 'Откалибровано';
+             $testResult .= 'Адкалібравана';
              $testResult .= "</font>";
 
          } else {
-             $testResult = '<font size = "5" color = "red">Не откалибровано</font>';
+             $testResult = '<font size = "5" color = "red">Не адкалібравана</font>';
          }
 
      }
@@ -78,15 +78,15 @@ include_once 'MorseCodeConverter.php';
                     <h2 class="sub-caption-smaller"><!--Please input a text <br />-->Калі ласка, увядзіце тэкст</h2>
                 </td>
                 <td width="5%" align="right">
-                    <input type="button" class="symbol-button" value='&#8634;' onclick="document.getElementById('input_text_id').value=input_text_default;">
+                    <input type="button" class="symbol-button" value='&#8634;' onclick="document.getElementById('input_text_id').value=input_text_default; document.getElementById('output_text_id').value='';">
                 </td>
                 <td width="5%" align="right">
-                    <input type="button" class="symbol-button" value='x' onclick="document.getElementById('input_text_id').value='';">
+                    <input type="button" class="symbol-button" value='x' onclick="document.getElementById('input_text_id').value=''; document.getElementById('output_text_id').value='';">
                 </td>
             </tr>
       
         <tr>
-			<td >
+			<td colspan = 3>
 				<textarea id="input_text_id" name="text" class="main-textarea"><?php
                     if(isset($_POST['text']))
                     {
