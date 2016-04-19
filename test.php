@@ -10,11 +10,12 @@ $errors = 0;
 $errorList = '';
 $isError = false;
 $filePath = dirname(__FILE__) . "/tablemorze.txt";
+$allTestsCntExist = -1;
 $handle = fopen($filePath, 'r') OR die("fail open 'tablemorze.txt'");
 if ($handle) {
     $var = 0;
     while (($buffer = fgets($handle, 4096)) !== false) {
-
+        $allTestsCntExist++;
         if (substr($buffer, 0, 1) != "#") {
             $symbol_str = preg_split("/\t/", $buffer);
             $arrText[$var] = $symbol_str[0];
@@ -92,6 +93,8 @@ $allTestsCnt = $i - 1;
 $resultStatistics .= "Усяго тэстаў: <b>$allTestsCnt</b>.$br";
 $successfulTestsCnt = $allTestsCnt - $errors;
 $successfulTestsPercentage = round($successfulTestsCnt / $allTestsCnt * 100, 2);
+$percentageOfTests = round($allTestsCnt / $allTestsCntExist * 100, 2);
+$resultStatistics .= "Актываваных тэстаў: <b>$percentageOfTests % ($allTestsCnt з $allTestsCntExist)</b>.$br";
 $resultStatistics .= "Сярод актываваных тэстаў паспяхова пройдзена: <b>$successfulTestsPercentage % ($successfulTestsCnt з $allTestsCnt)</b>.$br$br$br";
 $resultStatistics .= $errorList;
 echo $resultStatistics;
