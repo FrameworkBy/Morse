@@ -163,7 +163,7 @@ include_once 'MorseCodeConverter.php';
     </tr>
 
         <tr>
-            <td >
+            <td colspan = 3>
                 <textarea id="output_text_id" name="morze" class="main-textarea" readonly><?php
                     if(isset($_POST['language']) && $_POST['language'] == 'bel' && !empty($result)) echo  $result;
                     if(isset($_POST['language']) && $_POST['language'] == 'rus' && !empty($result)) echo  $result;
