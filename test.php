@@ -70,6 +70,11 @@ for ($i = 1; $i < count($arrText); $i++) {
     if ($isError == true)
     {
         $wordHave = $arrText[$i];
+        $mismatchSymbol =mb_substr($wordHave, $charactersMismatchIndex, 1, "utf-8");
+        $startPart = mb_substr($wordHave, 0, $charactersMismatchIndex,"utf-8");
+        $endPart = mb_substr($wordHave, $charactersMismatchIndex + 1, mb_strlen($wordHave), "utf-8");
+        $mismatchSymbol = "<font color='red'>$mismatchSymbol</font>";
+        $wordHave = $startPart . $mismatchSymbol . $endPart;
         for ($k = 0; $k < $charactersMismatchIndex; $k++) {
             $coincidedPart .= mb_substr($arrText[$i], $k, 1, "utf-8");
         }
