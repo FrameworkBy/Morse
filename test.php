@@ -95,7 +95,7 @@ for ($i = 1; $i < count($arrText); $i++) {
     }
 }
 $allTestsCnt = $i - 1;
-$resultStatistics .= "Усяго тэстаў: <b>$allTestsCnt</b>.$br";
+$resultStatistics .= "Усяго тэстаў: <b>$allTestsCntExist</b>.$br";
 $successfulTestsCnt = $allTestsCnt - $errors;
 $successfulTestsPercentage = round($successfulTestsCnt / $allTestsCnt * 100, 2);
 $percentageOfTests = round($allTestsCnt / $allTestsCntExist * 100, 2);

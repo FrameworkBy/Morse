@@ -78,10 +78,10 @@ include_once 'MorseCodeConverter.php';
                     <h2 class="sub-caption-smaller"><!--Please input a text <br />-->Калі ласка, увядзіце тэкст</h2>
                 </td>
                 <td width="5%" align="right">
-                    <input type="button" class="symbol-button" value='&#8634;' onclick="document.getElementById('input_text_id').value=input_text_default; document.getElementById('output_text_id').value='';">
+                    <input type="submit" class="symbol-button" value='&#8634;' onclick="document.getElementById('input_text_id').value=input_text_default; document.getElementById('output_text_id').value='';">
                 </td>
                 <td width="5%" align="right">
-                    <input type="button" class="symbol-button" value='x' onclick="document.getElementById('input_text_id').value=''; document.getElementById('output_text_id').value='';">
+                    <input type="submit" class="symbol-button" value='x' onclick="document.getElementById('input_text_id').value=''; document.getElementById('output_text_id').value='';">
                 </td>
             </tr>
       
@@ -161,6 +161,11 @@ include_once 'MorseCodeConverter.php';
         ?>
             </td>
     </tr>
+    
+<?php
+if (isset($_POST['mainButton']))
+{
+    ?>
 
         <tr>
             <td colspan = 3>
@@ -174,7 +179,10 @@ include_once 'MorseCodeConverter.php';
                     
             </td>
         </tr>
+<?php
 
+}
+    ?>
         <br /><br /><br /><br />
 </table>
        

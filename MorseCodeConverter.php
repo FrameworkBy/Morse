@@ -163,6 +163,7 @@ class MorseCodeConverter
     private function generateAudio($text)
     {
         $tsize = 0;
+		$wavFilepath = '';
 		if(isset($text))
         {
             $filepath = dirname(__FILE__) . '/cache/out/' . $this->filename;
@@ -210,6 +211,9 @@ class MorseCodeConverter
             }
         }
 
+		if (empty($wawFilepath)){
+			return;
+		}
             $wav = fopen($wavFilepath, 'rb');
             $header = fread($wav, 40);
             $header .= pack('V',$tsize);
