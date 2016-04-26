@@ -40,6 +40,7 @@ for ($i = 1; $i < count($arrText); $i++) {
     $morseShouldBe = '';
     $coincidedPart = '';
     $wordHave = '';
+    $wordError = '';
     $arrTextdeb = preg_split('//u', $arrText[$i], -1, PREG_SPLIT_NO_EMPTY);
     $elementsMorse = explode(" ", $arrMorse[$i]);
 
@@ -74,7 +75,7 @@ for ($i = 1; $i < count($arrText); $i++) {
         $startPart = mb_substr($wordHave, 0, $charactersMismatchIndex,"utf-8");
         $endPart = mb_substr($wordHave, $charactersMismatchIndex + 1, mb_strlen($wordHave), "utf-8");
         $mismatchSymbol = "<font color='red'>$mismatchSymbol</font>";
-        $wordHave = $startPart . $mismatchSymbol . $endPart;
+        $wordError = $startPart . $mismatchSymbol . $endPart;
         for ($k = 0; $k < $charactersMismatchIndex; $k++) {
             $coincidedPart .= mb_substr($arrText[$i], $k, 1, "utf-8");
         }
@@ -89,6 +90,7 @@ for ($i = 1; $i < count($arrText); $i++) {
 
         $errorList .= "Error(line № $i)" . $br;
         $errorList .= "Word in: $wordHave" . $br;
+        $errorList .= "Place of mistake: $wordError" . $br;
         $errorList .= "Coincided part: $coincidedPart" . $br;
         $errorList .= "Must be : $morseShouldBe" . $br;
         $errorList .= "Now out: $morseHave" . $br . $br . $br;

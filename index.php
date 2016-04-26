@@ -112,24 +112,23 @@ include_once 'MorseCodeConverter.php';
         <select name="language"  >
             <option  value="mor"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'mor') ? 'selected' : ''; ?>>Морзе</option>
             <option value="rus"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'rus') ? 'selected' : ''; ?>>Русский</option>
-            <option value="bel"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'bel') ? 'selected' : ''; ?>>Беларускі</option>
+            <option value="bel"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'bel') ? 'selected' : ''; ?>>Беларуская</option>
             <option value="eng"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'eng') ? 'selected' : ''; ?>>English</option>
         </select>
+            <input type="submit" name = "mainButton" value="Канвертаваць" class="blue-button">
+            <input type="checkbox" name="loga"  value="on" <?php if(isset($_POST['loga'])) echo($_POST['loga'] == 'on') ? 'checked' : ''; ?>> Show log information
 		  </td>
+
           
         </tr>
 
-        <tr>
-            <td >
-                <input type="submit" name = "mainButton" value="Перакласьці" class="blue-button">
-            </td>
-        </tr>
+        
        
          
 
        
     <tr>
-        <p> <input type="submit" name = "TestButton" class="blue-button" value='Адкалібраваць';> </p>
+   
             <td >
             <?php
                 if (isset($_POST['mainButton']) && file_exists('cache/out/' . $MorseCodeConverter->getFilePath())) {
@@ -152,22 +151,20 @@ include_once 'MorseCodeConverter.php';
             </td>
     </tr>
 
-    <tr>
-            <td>
-             <?php
-        if (isset($_POST['TestButton'])){
-            echo $testResult;
-        }
-        ?>
-            </td>
-    </tr>
-    
-<?php
-if (isset($_POST['mainButton']))
-{
-    ?>
+   
 
-        <tr>
+    <tr>
+            
+             <?php
+            if($_POST['loga'] == 'on'){
+
+            
+            ?>
+            
+             <tr>
+            <?php 
+            if (isset($_POST['mainButton'])) {
+               ?>
             <td colspan = 3>
                 <textarea id="output_text_id" name="morze" class="main-textarea" readonly><?php
                     if(isset($_POST['language']) && $_POST['language'] == 'bel' && !empty($result)) echo  $result;
@@ -178,11 +175,25 @@ if (isset($_POST['mainButton']))
                     
                     
             </td>
+            <?php
+        }
+            ?>
         </tr>
-<?php
+        <tr> <td><input type="submit" name = "TestButton" class="blue-button" value='Адкалібраваць';> </td></tr>
+        <tr>  <td>  <?php
+        echo $testResult;
+        }
+        ?><td></tr>
+        
+    </tr>
+    
 
-}
-    ?>
+        <tr>
+            <td>
+                
+            </td>
+        </tr>
+
         <br /><br /><br /><br />
 </table>
        
