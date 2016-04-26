@@ -99,7 +99,7 @@ class MorseCodeConverter
             }
         }
 
-        if ($_POST['language'] == 'mor')
+        if ($_POST['language'] == 'mor' && !empty($result))
         {
             $this->generateAudio($result);
         }
@@ -211,9 +211,6 @@ class MorseCodeConverter
             }
         }
 
-		if (empty($wawFilepath)){
-			return;
-		}
             $wav = fopen($wavFilepath, 'rb');
             $header = fread($wav, 40);
             $header .= pack('V',$tsize);
