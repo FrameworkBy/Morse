@@ -53,7 +53,8 @@ include_once 'MorseCodeConverter.php';
      if(isset($_POST['mainButton'])) {
          if (isset($_POST['text']) && isset($_POST['language'])) {
              $MorseCodeConverter = new MorseCodeConverter($_POST['language']);
-             $result = $MorseCodeConverter->start($_POST['text']);
+            // $result = $MorseCodeConverter->start($_POST['text']);
+             list ($result, $unknown) = $MorseCodeConverter->start($_POST['text']);
 
          }
      }
@@ -180,10 +181,13 @@ include_once 'MorseCodeConverter.php';
             ?>
         </tr>
         <tr> <td><input type="submit" name = "TestButton" class="blue-button" value='Адкалібраваць';> </td></tr>
-        <tr>  <td>  <?php
+        <tr><td><?php echo $unknown;?> </td></tr>
+        <tr>  <td> 
+        <?php
         echo $testResult;
         }
         ?><td></tr>
+
         
     </tr>
     

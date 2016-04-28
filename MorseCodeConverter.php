@@ -5,6 +5,9 @@ class MorseCodeConverter
     private $text = '';
     private $arr = array();
     private $filename = '';
+    private $nonesymb ='';
+    private $temple='';
+    private $unknown='';
     //const BR = "<br />\n";
     const INPUT_TEXT_DEFAULT = "Вас вітае канвертар коду Морзэ!";
 
@@ -58,6 +61,7 @@ class MorseCodeConverter
                     $symbol_str = preg_split("/\t/", $buffer);
                     if ($this->language == 'mor'){
                         $this->arr[$symbol_str[2]] = $symbol_str[7];
+
                     } else {
                         $this->arr[$symbol_str[7]] = $symbol_str[3];
                     }
@@ -82,12 +86,22 @@ class MorseCodeConverter
                 if ($lng == ' ') {
                     continue;
                 }
+
                 $this->setText($lng);
                 //delete later
                 //echo $this->ordutf8($lng);
-                $result .= $this->run();
+                $temple=$this->run();
+                $result .= $temple;
                 $result.= ' ';
+                
+                if($temple[0]!='*'&&$temple[0]!='-'){
+                    $unknown.=$this->ordutf8($lng);
+                    $unknown.='  ';
+                    $unknown.=$lng;
+                    $unknown.=' unknown symbol </br>';
+                }
             }
+            //echo $unknown;
             unset($lng);
         }
         else
@@ -99,12 +113,12 @@ class MorseCodeConverter
             }
         }
 
-        if ($_POST['language'] == 'mor' && !empty($result))
+        if ($_POST['language'] == 'mor')
         {
             $this->generateAudio($result);
         }
 
-        return $result;
+        return array($result, $unknown );
     }
 
     public function run()
@@ -163,7 +177,6 @@ class MorseCodeConverter
     private function generateAudio($text)
     {
         $tsize = 0;
-		$wavFilepath = '';
 		if(isset($text))
         {
             $filepath = dirname(__FILE__) . '/cache/out/' . $this->filename;
@@ -183,7 +196,7 @@ class MorseCodeConverter
                     $wavFilepath = dirname(__FILE__) . "/base/silence200.wav";
                 }
                 else {
-                    echo '999', $lng, '<br>';
+                    //echo '999', $lng, '<br>';
                     continue;
                 }
                 $fp = fopen($wavFilepath, 'rb');
