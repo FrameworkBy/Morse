@@ -41,6 +41,7 @@ for ($i = 1; $i < count($arrText); $i++) {
     $coincidedPart = '';
     $wordHave = '';
     $wordError = '';
+    $arrText[$i] = str_replace(' ', '', $arrText[$i]);
     $arrTextdeb = preg_split('//u', $arrText[$i], -1, PREG_SPLIT_NO_EMPTY);
     $elementsMorse = explode(" ", $arrMorse[$i]);
 
@@ -52,19 +53,22 @@ for ($i = 1; $i < count($arrText); $i++) {
           $temp = count($arrTextdeb);
       }
     } else $temp = count($elementsMorse);
-
+    
     for ($j = 0; $j < $temp; $j++)
     {
-        $MorseCodeConverter->setText($arrTextdeb[$j]);
-        $result = $MorseCodeConverter->run();
-        $newArrResult = mb_substr($result, 0, mb_strlen($result), "utf-8");
-        $newArrMorse = mb_substr($elementsMorse[$j], 0, mb_strlen($elementsMorse[$j]), "utf-8");
-        if (strcmp($newArrMorse, $newArrResult) != 0)
-        {
-            $charactersMismatchIndex = $j;
-            $isError = true;
-            $errors++;
-            break;
+        if ($arrTextdeb[$j] == ' '){
+            continue;
+        }else {
+            $MorseCodeConverter->setText($arrTextdeb[$j]);
+            $result = $MorseCodeConverter->run();
+            $newArrResult = mb_substr($result, 0, mb_strlen($result), "utf-8");
+            $newArrMorse = mb_substr($elementsMorse[$j], 0, mb_strlen($elementsMorse[$j]), "utf-8");
+            if (strcmp($newArrMorse, $newArrResult) != 0) {
+                $charactersMismatchIndex = $j;
+                $isError = true;
+                $errors++;
+                break;
+            }
         }
     }
 
