@@ -52,14 +52,14 @@ include_once 'MorseCodeConverter.php';
 	 <?php
      if(isset($_POST['mainButton'])) {
          if (isset($_POST['text']) && isset($_POST['language'])) {
-             $MorseCodeConverter = new MorseCodeConverter($_POST['language']);
+             $MorseCodeConverter = new MorseCodeConverter($_POST['language'], 'medium');
             // $result = $MorseCodeConverter->start($_POST['text']);
              list ($result, $unknown) = $MorseCodeConverter->start($_POST['text']);
 
          }
      }
      if (isset($_POST['TestButton'])){
-         $MorseCodeConverter = new MorseCodeConverter('mor');
+         $MorseCodeConverter = new MorseCodeConverter('mor', 'medium');
          if ($MorseCodeConverter->AutoTest() == True){
              $testResult = '<font size = "5" color = "green">';
              $testResult .= 'Адкалібравана';

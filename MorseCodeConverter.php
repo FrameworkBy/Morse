@@ -8,10 +8,11 @@ class MorseCodeConverter
     private $nonesymb ='';
     private $temple='';
     private $unknown='';
+    private $speed = '';
     //const BR = "<br />\n";
     const INPUT_TEXT_DEFAULT = "Вас вітае канвертар коду Морзэ!";
 
-    function __construct($language)
+    function __construct($language, $spd)
     {
         $this->language = $language;
         $this->readTable();
@@ -29,6 +30,7 @@ class MorseCodeConverter
         $path = dirname(__FILE__) . '/cache/email/';
         if(!file_exists($path)) mkdir($path);
         $this->filename = $date_code . '_'. $ip . '_' . $rand_code . '_out.wav';
+        $this->speed = $spd;
     }
 
     private function readTable()
@@ -183,17 +185,16 @@ class MorseCodeConverter
             $newFile = fopen($filepath, 'wb') OR die('fail open test.wav');
             fseek($newFile, 44);
             $newText = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
-
             foreach($newText as $lng)
             {
                 if($lng == '*') {
-                    $wavFilepath = dirname(__FILE__) . "/base/dot50.wav";
+                    $wavFilepath = dirname(__FILE__) . "/base/". $this->speed ."/dot50.wav";
                 }
                 elseif ($lng == '-') {
-                    $wavFilepath = dirname(__FILE__) . "/base/dash150.wav";
+                    $wavFilepath = dirname(__FILE__) . "/base/". $this->speed ."/dash150.wav";
                 }
                 elseif ($lng == ' ') {
-                    $wavFilepath = dirname(__FILE__) . "/base/silence200.wav";
+                    $wavFilepath = dirname(__FILE__) . "/base/". $this->speed ."/silence200.wav";
                 }
                 else {
                     //echo '999', $lng, '<br>';
@@ -210,7 +211,7 @@ class MorseCodeConverter
                 fclose($fp);
 
                 if ($lng != ' ') {
-                    $wavFilepath = dirname(__FILE__) . "/base/silence150.wav";
+                    $wavFilepath = dirname(__FILE__) . "/base/". $this->speed ."/silence150.wav";
                     $fp = fopen($wavFilepath, 'rb');
                     fseek($fp, 16);
                     $sizeChunk1 = unpack('Vsize', fread($fp,4));
@@ -269,6 +270,7 @@ class MorseCodeConverter
             $result = '';
             $newArrResult = '';
             $newArrMorse='';
+            $arrText[$i] = str_replace(' ', '', $arrText[$i]);
             $arrTextdeb = preg_split('//u', $arrText[$i], -1, PREG_SPLIT_NO_EMPTY);
             foreach ($arrTextdeb as $ar) {
                 $this->setText($ar);

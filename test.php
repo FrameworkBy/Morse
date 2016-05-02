@@ -3,7 +3,7 @@ mb_internal_encoding('UTF-8');
 mb_regex_encoding('UTF-8');
 include_once 'MorseCodeConverter.php';
 
-$MorseCodeConverter = new MorseCodeConverter('mor');
+$MorseCodeConverter = new MorseCodeConverter('mor', 'medium');
 
 $br ="<br>\n";
 $errors = 0;
@@ -53,7 +53,7 @@ for ($i = 1; $i < count($arrText); $i++) {
           $temp = count($arrTextdeb);
       }
     } else $temp = count($elementsMorse);
-    
+
     for ($j = 0; $j < $temp; $j++)
     {
         if ($arrTextdeb[$j] == ' '){
