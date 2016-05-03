@@ -117,9 +117,9 @@ include_once 'MorseCodeConverter.php';
                         <option value="eng"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'eng') ? 'selected' : ''; ?>>English</option>
                     </select>
                     <select name="speed"  >
-                        <option  value="slow"<?php if(isset($_POST['speed'])) echo($_POST['speed'] == 'slow') ? 'selected' : ''; ?>>Slow</option>
-                        <option selected value="medium"<?php if(isset($_POST['speed'])) echo($_POST['speed'] == 'medium') ? 'selected' : ''; ?>>Medium</option>
-                        <option value="high"<?php if(isset($_POST['speed'])) echo($_POST['speed'] == 'high') ? 'selected' : ''; ?>>High</option>
+                        <option  value="slow"<?php echo(isset($_POST['speed']) && $_POST['speed'] == 'slow') ? 'selected' : ''; ?>>Slow</option>
+                        <option  value="medium"<?php echo(isset($_POST['speed']) && $_POST['speed'] == 'medium' || !isset($_POST['speed'])) ? 'selected' : ''; ?>>Medium</option>
+                        <option value="high"<?php echo(isset($_POST['speed']) && $_POST['speed'] == 'high') ? 'selected' : ''; ?>>High</option>
                     </select>
                     <input type="submit" name = "mainButton" value="Канвертаваць" class="blue-button">
                     <input type="checkbox" name="loga"  value="on" <?php if(isset($_POST['loga'])) echo($_POST['loga'] == 'on') ? 'checked' : ''; ?>> Show log information
