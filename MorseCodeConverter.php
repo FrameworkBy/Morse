@@ -100,7 +100,7 @@ class MorseCodeConverter
                     $unknown.=$this->ordutf8($lng);
                     $unknown.='  ';
                     $unknown.=$lng;
-                    $unknown.=' unknown symbol </br>';
+                    $unknown.='</br>';
                 }
             }
             //echo $unknown;

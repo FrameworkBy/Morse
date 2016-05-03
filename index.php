@@ -49,31 +49,31 @@ include_once 'MorseCodeConverter.php';
     </div>
 
     <form enctype="multipart/form-data" method="post" action="">
-	 <?php
-     if(isset($_POST['mainButton'])) {
-         if (isset($_POST['text']) && isset($_POST['language'])) {
-             $MorseCodeConverter = new MorseCodeConverter($_POST['language'], 'medium');
-            // $result = $MorseCodeConverter->start($_POST['text']);
-             list ($result, $unknown) = $MorseCodeConverter->start($_POST['text']);
+        <?php
+        if(isset($_POST['mainButton'])) {
+            if (isset($_POST['text']) && isset($_POST['language'])) {
+                $MorseCodeConverter = new MorseCodeConverter($_POST['language'], $_POST['speed']);
+                // $result = $MorseCodeConverter->start($_POST['text']);
+                list ($result, $unknown) = $MorseCodeConverter->start($_POST['text']);
 
-         }
-     }
-     if (isset($_POST['TestButton'])){
-         $MorseCodeConverter = new MorseCodeConverter('mor', 'medium');
-         if ($MorseCodeConverter->AutoTest() == True){
-             $testResult = '<font size = "5" color = "green">';
-             $testResult .= 'Адкалібравана';
-             $testResult .= "</font>";
+            }
+        }
+        if (isset($_POST['TestButton'])){
+            $MorseCodeConverter = new MorseCodeConverter('mor', 'medium');
+            if ($MorseCodeConverter->AutoTest() == True){
+                $testResult = '<font size = "5" color = "green">';
+                $testResult .= 'Адкалібравана';
+                $testResult .= "</font>";
 
-         } else {
-             $testResult = '<font size = "5" color = "red">Не адкалібравана</font>';
-         }
+            } else {
+                $testResult = '<font size = "5" color = "red">Не адкалібравана</font>';
+            }
 
-     }
+        }
         ?>
 
 
-<table width="100%">
+        <table width="100%">
             <tr>
                 <td width="90%">
                     <h2 class="sub-caption-smaller"><!--Please input a text <br />-->Калі ласка, увядзіце тэкст</h2>
@@ -85,9 +85,9 @@ include_once 'MorseCodeConverter.php';
                     <input type="submit" class="symbol-button" value='x' onclick="document.getElementById('input_text_id').value=''; document.getElementById('output_text_id').value='';">
                 </td>
             </tr>
-      
-        <tr>
-			<td colspan = 3>
+
+            <tr>
+                <td colspan = 3>
 				<textarea id="input_text_id" name="text" class="main-textarea"><?php
                     if(isset($_POST['text']))
                     {
@@ -99,109 +99,119 @@ include_once 'MorseCodeConverter.php';
                     }
                     ?></textarea>
 
-			</td>
-			</tr>
+                </td>
+            </tr>
 
-		
 
-        
-		
-        <tr>
-		  <td >
 
-       
-        <select name="language"  >
-            <option  value="mor"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'mor') ? 'selected' : ''; ?>>Морзе</option>
-            <option value="rus"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'rus') ? 'selected' : ''; ?>>Русский</option>
-            <option value="bel"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'bel') ? 'selected' : ''; ?>>Беларуская</option>
-            <option value="eng"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'eng') ? 'selected' : ''; ?>>English</option>
-        </select>
-            <input type="submit" name = "mainButton" value="Канвертаваць" class="blue-button">
-            <input type="checkbox" name="loga"  value="on" <?php if(isset($_POST['loga'])) echo($_POST['loga'] == 'on') ? 'checked' : ''; ?>> Show log information
-		  </td>
 
-          
-        </tr>
 
-        
-       
-         
+            <tr>
+                <td >
 
-       
-    <tr>
-   
-            <td >
-            <?php
-                if (isset($_POST['mainButton']) && file_exists('cache/out/' . $MorseCodeConverter->getFilePath())) {
+
+                    <select name="language"  >
+                        <option  value="mor"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'mor') ? 'selected' : ''; ?>>Морзе</option>
+                        <option value="rus"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'rus') ? 'selected' : ''; ?>>Русский</option>
+                        <option value="bel"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'bel') ? 'selected' : ''; ?>>Беларуская</option>
+                        <option value="eng"<?php if(isset($_POST['language'])) echo($_POST['language'] == 'eng') ? 'selected' : ''; ?>>English</option>
+                    </select>
+                    <select name="speed"  >
+                        <option  value="slow"<?php if(isset($_POST['speed'])) echo($_POST['speed'] == 'slow') ? 'selected' : ''; ?>>Slow</option>
+                        <option selected value="medium"<?php if(isset($_POST['speed'])) echo($_POST['speed'] == 'medium') ? 'selected' : ''; ?>>Medium</option>
+                        <option value="high"<?php if(isset($_POST['speed'])) echo($_POST['speed'] == 'high') ? 'selected' : ''; ?>>High</option>
+                    </select>
+                    <input type="submit" name = "mainButton" value="Канвертаваць" class="blue-button">
+                    <input type="checkbox" name="loga"  value="on" <?php if(isset($_POST['loga'])) echo($_POST['loga'] == 'on') ? 'checked' : ''; ?>> Show log information
+                </td>
+
+
+            </tr>
+
+
+
+
+
+
+            <tr>
+
+                <td >
+                    <?php
+                    if (isset($_POST['mainButton']) && file_exists('cache/out/' . $MorseCodeConverter->getFilePath())) {
+                        ?>
+                        <h2 class="sub-caption-smaller">Listen to the generated speech</h2>
+
+
+
+                        <p>
+                            <audio controls>
+                                <source src=<?php echo 'cache/out/' . $MorseCodeConverter->getFilePath(); ?> type="audio/wav"/>
+                                Your browser does not support the audio element.
+                            </audio>
+                        <p>or <a type="audio/wav" href=<?php echo 'cache/out/' . $MorseCodeConverter->getFilePath(); ?> download> download the generated speech file.</a></p>
+                        </p>
+                        <?php
+                    }
                     ?>
-        <h2 class="sub-caption-smaller">Listen to the generated speech</h2>
 
-        
-        
-        <p>
-        <audio controls>
-        <source src=<?php echo 'cache/out/' . $MorseCodeConverter->getFilePath(); ?> type="audio/wav"/>
-        Your browser does not support the audio element.
-        </audio>
-            <p>or <a type="audio/wav" href=<?php echo 'cache/out/' . $MorseCodeConverter->getFilePath(); ?> download> download the generated speech file.</a></p>
-            </p>
- <?php
-                }
-                ?>
-        
-            </td>
-    </tr>
+                </td>
+            </tr>
 
-   
 
-    <tr>
-            
-             <?php
+
+            <?php
             if($_POST['loga'] == 'on'){
 
-            
+
             ?>
-            
-             <tr>
-            <?php 
+            <?php
             if (isset($_POST['mainButton'])) {
-               ?>
-            <td colspan = 3>
+                ?>
+                <tr><td colspan = 3>
                 <textarea id="output_text_id" name="morze" class="main-textarea" readonly><?php
                     if(isset($_POST['language']) && $_POST['language'] == 'bel' && !empty($result)) echo  $result;
                     if(isset($_POST['language']) && $_POST['language'] == 'rus' && !empty($result)) echo  $result;
                     if(isset($_POST['language']) && $_POST['language'] == 'eng' && !empty($result)) echo  $result;
                     if(isset($_POST['language']) && $_POST['language'] == 'mor' && !empty($result)) echo  $result;
-                    ?></textarea>
-                    
-                    
-            </td>
-            <?php
-        }
+                    ?></textarea></td></tr>
+
+
+
+
+                <?php
+            }
             ?>
-        </tr>
-        <tr> <td><input type="submit" name = "TestButton" class="blue-button" value='Адкалібраваць';> </td></tr>
-        <tr><td><?php echo $unknown;?> </td></tr>
-        <tr>  <td> 
-        <?php
-        echo $testResult;
-        }
-        ?><td></tr>
 
-        
-    </tr>
-    
+            <tr>
+            <tr><td><?php
+                    $str='<b>Unknown symbols</b><br>';
+                    if (!empty($unknown))
+                    {echo $str;
+                    }
 
-        <tr>
-            <td>
-                
-            </td>
-        </tr>
+                    echo $unknown;?> </td></tr>
+            <tr> <td><input type="submit" name = "TestButton" class="blue-button" value='Адкалібраваць';> </td></tr>
 
-        <br /><br /><br /><br />
-</table>
-       
-       
+            <tr>  <td>
+                <?php
+                echo $testResult;
+                }
+                ?><td></tr>
+
+
+            </tr>
+
+
+            <tr>
+                <td>
+
+                </td>
+            </tr>
+
+            <br /><br /><br /><br />
+        </table>
+
+
     </form>
 
     <div class="divider"></div>
