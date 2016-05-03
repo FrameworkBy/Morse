@@ -81,6 +81,7 @@ class MorseCodeConverter
     public function start($txt)
     {
         $result = '';
+		$unknown = '';
         if ($_POST['language'] == 'mor') {
             $newText = preg_split('//u', $_POST['text'], -1, PREG_SPLIT_NO_EMPTY);
             //print_r($newText);
@@ -120,7 +121,7 @@ class MorseCodeConverter
             $this->generateAudio($result);
         }
 
-        return array($result, $unknown );
+        return array($result, $unknown);
     }
 
     public function run()
@@ -146,7 +147,6 @@ class MorseCodeConverter
 			}
 		}
     }
-
 
 	private function ordutf8($string)
 		{
