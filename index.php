@@ -127,14 +127,15 @@
 
 					<tr>
 						<tr>
-							<td><?php
-							$str='<b>Unknown symbols</b><br>';
-							if(!empty($unknown))
+							<td colspan = 3><?php
+							$str='Unknown symbols' . PHP_EOL;?>
+								<textarea id = "unknown_symbols_id" name="Unknown" class="main-textarea" readonly><?php
+							if(!empty($unknown) && isset($_POST['language']) )
 							{
 								echo $str;
 								echo $unknown;
 							}
-							?>
+							?></textarea>
 							</td>
 						</tr>
 						<tr>
