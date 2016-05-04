@@ -98,10 +98,12 @@ class MorseCodeConverter
                 $result.= ' ';
                 
                 if($temple[0]!='*'&&$temple[0]!='-'){
-                    $unknown.=$this->ordutf8($lng);
-                    $unknown.='  ';
-                    $unknown.=$lng;
-                    $unknown.='</br>';
+                    if ($this->ordutf8($lng) != 'U+000D' && $this->ordutf8($lng) != 'U+000A') {
+                        $unknown .= $this->ordutf8($lng);
+                        $unknown .= '  ';
+                        $unknown .= $lng;
+                        $unknown .= '</br>';
+                    }
                 }
             }
             //echo $unknown;
