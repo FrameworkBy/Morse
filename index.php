@@ -126,9 +126,15 @@
 					?>
 
 					<tr>
+						<td>
+							<?php
+							$str='Unknown symbols' . PHP_EOL;
+							if (!empty($unknown))
+								echo '<b> Unknown symbols</b><br>';?>
+						</td>
 						<tr>
-							<td colspan = 3><?php
-							$str='Unknown symbols' . PHP_EOL;?>
+
+							<td colspan = 3>
 								<textarea id = "unknown_symbols_id" name="Unknown" class="main-textarea" readonly><?php
 							if(!empty($unknown) && isset($_POST['language']) )
 							{
