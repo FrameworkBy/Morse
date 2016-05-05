@@ -126,23 +126,27 @@
 					?>
 
 					<tr>
+						<?php
+						if (!empty($unknown))
+						{
+						?>
 						<td>
 							<?php
-							$str='Unknown symbols' . PHP_EOL;
-							if (!empty($unknown))
-								echo '<b> Unknown symbols</b><br>';?>
+							$str = 'Невядомыя сімвалы' . PHP_EOL;
+							echo '<b>' . $str . '</b>'; ?>
 						</td>
-						<tr>
+					<tr>
 
-							<td colspan = 3>
-								<textarea id = "unknown_symbols_id" name="Unknown" class="main-textarea" readonly><?php
-							if(!empty($unknown) && isset($_POST['language']) )
-							{
-								echo $str;
-								echo $unknown;
-							}
-							?></textarea>
-							</td>
+						<td colspan=3>
+								<textarea id="unknown_symbols_id" name="Unknown" class="main-textarea" readonly><?php
+									if (!empty($unknown) && isset($_POST['language'])) {
+										echo $unknown;
+									}
+									?></textarea>
+						</td>
+						<?php
+						}
+						?>
 						</tr>
 						<tr>
 							<td>
