@@ -94,14 +94,12 @@ class MorseCodeConverter
                 //delete later
                 //echo $this->ordutf8($lng);
                 $temple=$this->run();
-                if ($temple == '.'){
-                    continue;
-                } else {
-                    $result .= $temple;
-                    $result .= ' ';
-                }
                 
-                if($temple[0]!='*'&&$temple[0]!='-'){
+                $result .= $temple;
+                $result .= ' ';
+                
+                $firstChar = mb_substr($temple, 0, 1, 'UTF-8');
+                if($firstChar != '*' && $firstChar != '-'){
                     if ($this->ordutf8($lng) != 'U+000D' && $this->ordutf8($lng) != 'U+000A') {
                         $unknown .= $this->ordutf8($lng);
                         $unknown .= '  ';
