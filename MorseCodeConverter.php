@@ -351,10 +351,27 @@ class MorseCodeConverter
         }
         $mailBody .= self::BR;
 
-        if ($this->isAudioExists){
-            $mailBody .= "Спасылка на аўдыёфайл: ";
-            $mailBody .= $root . "/MorseCodeConverter/cache/out/" .$this->getFilePath();
+        if (!empty($this->unknown)) {
+            $filename = $dateCode . '_' . $ip . '_' . $randCode . '_out_errors.txt';
+            $filepath = dirname(__FILE__) . '/cache/out/' . $filename;
+            $newFile = fopen($filepath, 'wb') OR die('open cache file error');
+            $cacheText = preg_replace("/(^\s+)|(\s+$)/us", "", $this->unknown);
+            fwrite($newFile, $cacheText);
+            fclose($newFile);
+            $url = $root . "/showTxt.php?p1=MorseCodeConverter&p2=cache&p3=out&p4=$filename";
+            if (mb_strlen($cacheText)) {
+                $mailBody .= "Невядомыя сімвалы: " . self::BR;
+                preg_match('/([^\n]*\n?){1,3}/u', $cacheText, $matches);
+                $mailBody .= '<blockquote><i>' . str_replace("\n", self::BR, trim($matches[0])) . " <a href=$url>паглядзець цалкам</a></i></blockquote>";
+            }
+            $mailBody .= self::BR;
         }
+
+        if ($this->isAudioExists) {
+            $mailBody .= "Спасылка на аўдыёфайл: ";
+            $mailBody .= $root . "/MorseCodeConverter/cache/out/" . $this->getFilePath();
+        }
+
 
         $header = "MIME-Version: 1.0\r\n";
         $header .= "Content-type: text/html; charset=utf-8\r\n";
