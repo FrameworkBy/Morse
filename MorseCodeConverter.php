@@ -11,6 +11,7 @@ class MorseCodeConverter
     private $temple = '';
     private $unknown = '';
     private $speed = '';
+    private $isAudioExists = false;
     const BR = "<br />\n";
     const INPUT_TEXT_DEFAULT = "Вас вітае канвертар коду Морзэ!";
 
@@ -224,6 +225,7 @@ class MorseCodeConverter
         fwrite($newFile, pack('V', $tsize + 36));
         fclose($newFile);
         fclose($wav);
+        $this->isAudioExists = true;
     }
 
 
@@ -348,6 +350,11 @@ class MorseCodeConverter
             $mailBody .= '<blockquote><i>' . str_replace("\n", self::BR, trim($matches[0])) . " <a href=$url>паглядзець цалкам</a></i></blockquote>";
         }
         $mailBody .= self::BR;
+
+        if ($this->isAudioExists){
+            $mailBody .= "Спасылка на аўдыёфайл: ";
+            $mailBody .= $root . "/MorseCodeConverter/cache/out/" .$this->getFilePath();
+        }
 
         $header = "MIME-Version: 1.0\r\n";
         $header .= "Content-type: text/html; charset=utf-8\r\n";
