@@ -382,8 +382,6 @@ class MorseCodeConverter
         $newFile = fopen($filename, 'wb') OR die('open cache file error');
         fwrite($newFile, join("\n", array("recipient: \t" . $recipient, "subject: \t" . $subject, "\n\tMAIL BODY\n\n" . $mailBody, $header)));
         fclose($newFile);
-
-
     }
 }
 
