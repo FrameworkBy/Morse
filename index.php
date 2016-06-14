@@ -26,7 +26,7 @@
 				if(isset($_POST['mainButton'])) {
 					if (isset($_POST['text']) && isset($_POST['language'])) {
 						$MorseCodeConverter = new MorseCodeConverter($_POST['language'], $_POST['speed']);
-						// $result = $MorseCodeConverter->start($_POST['text']);
+						$MorseCodeConverter = new MorseCodeConverter($_POST['language'], $_POST['speed']);
 						list ($result, $unknown) = $MorseCodeConverter->start($_POST['text']);
 					}
 				}
