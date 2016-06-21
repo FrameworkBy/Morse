@@ -305,6 +305,9 @@ class MorseCodeConverter
         $mailBody .= "www.corpus.by/MorseCodeConverter/ дасылае інфармацыю аб актыўнасці карыстальніка з IP $ip." . self::BR . self::BR;
         $textLength = mb_strlen($this->text);
         $pages = round($textLength / 2300, 1);
+        if ($pages == 0){
+            $pages += 1;
+        }
 
         $root = "http://" . $_SERVER['HTTP_HOST'];
         $path = dirname(__FILE__) . '/cache/';
@@ -346,7 +349,7 @@ class MorseCodeConverter
         $url = $root . "/showTxt.php?p1=MorseCodeConverter&p2=cache&p3=out&p4=$filename";
         if (mb_strlen($cacheText)) {
             $mailBody .= "Вынік пачынаецца з:" . self::BR;
-            preg_match('/([^\n]*\n?){1,3}/u', $cacheText, $matches);
+            preg_match('/([\*\-]{1,7} ){1,100}/u', $cacheText, $matches);
             $mailBody .= '<blockquote><i>' . str_replace("\n", self::BR, trim($matches[0])) . " <a href=$url>паглядзець цалкам</a></i></blockquote>";
         }
         $mailBody .= self::BR;
