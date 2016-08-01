@@ -7,6 +7,8 @@
         href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,300,600,700&subset=latin,cyrillic'
         rel='stylesheet' type='text/css'/>
     <script type="text/javascript" src="../sortTable.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+
 </head>
 
 <?php
@@ -16,6 +18,76 @@ include_once '../analyticstracking.php';
 
 <script language="javascript">
     var input_text_default = "<?php echo str_replace("\"", '\"', str_replace("\n", '\\n', MorseCodeConverter::INPUT_TEXT_DEFAULT)); ?>";
+</script>
+
+<script language="JavaScript">
+    audio_option = 'html5'; //вариант аудиоплеера: html5, flash
+    $(document).ready(function () {
+        try {
+            if ($('#player audio')[0].canPlayType('audio/wav') != 'maybe') //тег audio не сработал или не поддерживает формат
+            {
+                audio_option = 'flash';
+                $('#player embed').appendTo('#player');
+                $('#player audio').remove();
+            }
+        }
+        catch (error) {
+            // console.log(error);
+            audio_option = 'flash';
+        }
+        $('button#TtsButton').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "http://corpus.by/tts3/api.php",
+                data: {
+                    'text': $('textarea#output_text_id').val(),
+                    'lang': $('select#language').val()
+                },
+                success: function (msg) {
+                    msg = msg.replace(String.fromCharCode(65279), "");
+                    var result = jQuery.parseJSON(msg);
+                    alert(result);
+                    audio_url = result.audio;
+                    $('#player').css('opacity', 1.0);
+                    switch (audio_option) {
+                        case 'html5':
+                            $('#player audio source').remove();
+                            $('#player audio').append(
+                                $('<source>', {
+                                    src: audio_url,
+                                    type: "audio/wav"
+                                })
+                            );
+                            $('#player audio').load();
+                            break;
+                        case 'flash':
+                            $('#player embed').replaceWith($('<embed>', {
+                                src: "wavplayer.swf?gui=mini&h=20&w=300&sound=" + audio_url,
+                                bgcolor: "#ffffff",
+                                width: "40",
+                                height: "40",
+                                allowScriptAccess: "always",
+                                type: "application/x-shockwave-flash",
+                                pluginspage: "http://www.macromedia.com/go/getflashplayer"
+                            }));
+                            break;
+                    }
+
+                    $('#audioFileLink').replaceWith(
+                        $('<a>', {
+                            href: audio_url,
+                            html: "Download"
+                        })
+                    );
+
+                },
+                error: function () {
+                    $('#player').html('Произошла ошибка, попробуйте еще раз.');
+                }
+            });
+        });
+    });
+
 </script>
 
 <body>
@@ -73,7 +145,7 @@ include_once '../analyticstracking.php';
             </tr>
             <tr>
                 <td>
-                    <select name="language">
+                    <select name="language" id = "language">
                         <option
                             value="mor"<?php if (isset($_POST['language'])) echo ($_POST['language'] == 'mor') ? 'selected' : ''; ?>>
                             Морзе
@@ -177,7 +249,14 @@ include_once '../analyticstracking.php';
             </tr>
             <tr>
                 <td>
-                    <input type="submit" name="TestButton" class="blue-button" value='Адкалібраваць' ;>
+                    <input type="submit" name="TestButton" class="blue-button" value='Адкалібраваць'>
+                    <?php
+                    if ($_POST['language'] != 'mor') {
+                        ?>
+                        <button type="submit" name="TtsButton" id="TtsButton" class="blue-button"> Агучыць</button>
+                        <?php
+                    }
+                    ?>
                 </td>
             </tr>
             <tr>
