@@ -46,7 +46,6 @@ include_once '../analyticstracking.php';
                 success: function (msg) {
                     msg = msg.replace(String.fromCharCode(65279), "");
                     var result = jQuery.parseJSON(msg);
-                    alert(result);
                     audio_url = result.audio;
                     $('#player').css('opacity', 1.0);
                     switch (audio_option) {
@@ -250,13 +249,7 @@ include_once '../analyticstracking.php';
             <tr>
                 <td>
                     <input type="submit" name="TestButton" class="blue-button" value='Адкалібраваць'>
-                    <?php
-                    if ($_POST['language'] != 'mor') {
-                        ?>
-                        <button type="submit" name="TtsButton" id="TtsButton" class="blue-button"> Агучыць</button>
-                        <?php
-                    }
-                    ?>
+                    
                 </td>
             </tr>
             <tr>
@@ -274,6 +267,21 @@ include_once '../analyticstracking.php';
             </tr>
         </table>
     </form>
+    <?php
+                    if (($_POST['language'] == 'bel' || $_POST['language'] == 'rus') && 
+                        (isset($_POST['loga']) && $_POST['loga'] == 'on')) {
+    ?>
+                        <button type="submit" name="TtsButton" id="TtsButton" class="blue-button"> Агучыць</button>
+                        
+                    
+                    <div id="player" style="opacity: 0.5">
+                                    <audio controls>
+                                        <embed src="wavplayer.swf?gui=mini&h=20&w=300&sound=" bgcolor="#ffffff" style="width: 40px; height: 40px;" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+                                    </audio>
+                                    <a href id="audioFileLink"></a>
+                                </div>
+    <?php } ?>
+
     <div class="divider"></div>
     <h2 class="sub-caption-smaller">
         We will be happy to receive your suggestions, offers and opinions to <a href="mailto:corpus.by@gmail.com">corpus.by@gmail.com</a><br/>
