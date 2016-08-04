@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # Read in a WAV and find the freq's
 
-from scipy.io import wavfile  # get the api
 import wave
 import numpy as np
 import sys
@@ -104,11 +103,17 @@ def get_signals_list(points, freq):
     return signal_list
 
 
+def decode_morse(fileName):
+    a = read_wav(fileName)
+    points, freq = get_points(a)
+    signal_list = get_signals_list(points, freq)
+    return  (make_string(signal_list))
+
 if __name__ == "__main__":
     fileName = 'test.wav'
     if len(sys.argv) > 2:
         fileName = sys.argv[1]
-    a = read_wav('test.wav')
-    points, freq = get_points(a)
-    signal_list = get_signals_list(points, freq)
-    print(make_string(signal_list))
+    print(decode_morse(fileName))
+
+
+
